@@ -74,8 +74,6 @@ def save_data():
         #     'ot': open_transactions
         # }
         # f.write(pickle.dumps(save_data))
-    print('Saving failed!')
-
 
 
 def valid_proof(transactions, last_hash, proof):
@@ -88,11 +86,11 @@ def valid_proof(transactions, last_hash, proof):
     """
     # Create a string with all the hash inputs
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
-    print(guess)
+
     # Hash the string
     # IMPORTANT: This is NOT the same hash as will be stored in the previous_hash. It's a not a block's hash. It's only used for the proof-of-work algorithm.
     guess_hash = hash_string_256(guess)
-    print(guess_hash)
+
     # Only a hash (which is based on the above inputs) which starts with two 0s is treated as valid
     # This condition is of course defined by you. You could also require 10 leading 0s - this would take significantly longer (and this allows you to control the speed at which new blocks can be added)
     return guess_hash[0:2] == '00'
@@ -124,7 +122,7 @@ def get_balance(participant):
     open_tx_sender = [tx['amount']
                       for tx in open_transactions if tx['sender'] == participant]
     tx_sender.append(open_tx_sender)
-    print(tx_sender)
+
     amount_sent = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt)
                          if len(tx_amt) > 0 else tx_sum + 0, tx_sender, 0)
     # This fetches received coin amounts of transactions that were already included in blocks of the blockchain
@@ -275,7 +273,7 @@ while waiting_for_input:
             print('Added transaction!')
         else:
             print('Transaction failed!')
-        print(open_transactions)
+
     elif user_choice == '2':
         if mine_block():
             open_transactions = []
